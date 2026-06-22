@@ -21,9 +21,8 @@ function getSmileyFrame(gameStatus: GameStatus): SpriteFrame {
   }
 }
 
-function SpriteDigit({ digit }: { digit: number }) {
-  const key = `timerNumber${digit}` as keyof typeof DIGIT_SPRITES;
-  const frame = DIGIT_SPRITES[key];
+function SpriteDigit({ spriteKey }: { spriteKey: keyof typeof DIGIT_SPRITES }) {
+  const frame = DIGIT_SPRITES[spriteKey];
   return (
     <span
       style={{
@@ -39,11 +38,21 @@ function SpriteDigit({ digit }: { digit: number }) {
 }
 
 function DigitDisplay({ value }: { value: number }) {
-  const padded = String(value).padStart(3, '0');
+  const clamped = Math.max(-99, Math.min(999, value));
+
+  const keys: (keyof typeof DIGIT_SPRITES)[] = clamped < 0
+    ? [
+        'timerNegative',
+        ...String(Math.abs(clamped)).padStart(2, '0').split('')
+          .map(ch => `timerNumber${ch}` as keyof typeof DIGIT_SPRITES),
+      ]
+    : String(clamped).padStart(3, '0').split('')
+        .map(ch => `timerNumber${ch}` as keyof typeof DIGIT_SPRITES);
+
   return (
     <div>
-      {padded.split('').map((ch, i) => (
-        <SpriteDigit key={i} digit={Number(ch)} />
+      {keys.map((key, i) => (
+        <SpriteDigit key={i} spriteKey={key} />
       ))}
     </div>
   );

@@ -33,6 +33,7 @@ export const SMILEY_SPRITES = {
 } satisfies Record<string, SpriteFrame>
 
 export const DIGIT_SPRITES = {
+  timerNegative: { x_coordinate: 140, y_coordinate: 0, w: 13, h: 23 },
   timerNumber0: { x_coordinate: 126,   y_coordinate: 0, w: 13, h: 23 },
   timerNumber1: { x_coordinate: 0,  y_coordinate: 0, w: 13, h: 23 },
   timerNumber2: { x_coordinate: 14,  y_coordinate: 0, w: 13, h: 23 },
